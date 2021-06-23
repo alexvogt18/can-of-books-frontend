@@ -23,7 +23,7 @@ class App extends React.Component {
       headers: {"Authorization" : `Bearer ${jwt}`}
     };
 
-    const serverResponse = await axios.get('http://localhost:3001/test-login', config);
+    const serverResponse = await axios.get('http://localhost:3001/books', config);
 
     console.log(serverResponse);
   }
