@@ -6,6 +6,12 @@ import { withAuth0 } from "@auth0/auth0-react";
 import Carousel from 'react-bootstrap/Carousel';
 
 class MyFavoriteBooks extends React.Component {
+  constructor(props){
+    super(props);
+      this.state = {
+        bookData: []
+      }
+  }
   async componentDidMount() {
     // this is going to be the same, always, for making requests to the server including the token
     const { getIdTokenClaims } = this.props.auth0;
@@ -21,21 +27,26 @@ class MyFavoriteBooks extends React.Component {
   }
   render() {
     return (
-      <Carousel>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src="holder.js/800x400?text=First slide&bg=373940"
-            alt="First slide"
-          />
-          <Carousel.Caption>
-            <h3>My Favorite Books</h3>
-            <p>This is a collection of my favorite books.
-
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
+      <>
+        <h1> This is a display of your favorite Books!</h1>
+        {this.state.bookData ?
+          <Carousel>
+          {this.state.bookData.map(book => {
+            return <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="holder.js/800x400?text=First slide&bg=373940"
+                alt="First slide"
+              />
+              <Carousel.Caption>
+                <h3>{this.state.bookData.name}</h3>
+                <p>{this.state.bookData.description}</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            })}
+          </Carousel>
+          : null}
+      </>
     )
   }
 }
