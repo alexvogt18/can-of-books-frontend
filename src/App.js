@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './Header';
+import ShowModal from './ShowModal.js';
 import IsLoadingAndError from './IsLoadingAndError';
 import Footer from './Footer';
 import Login from './Login.js';
@@ -14,6 +15,12 @@ import {
 import axios from 'axios';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: false
+    }
+  }
   makeRequest = async () => {
     const { getIdTokenClaims } = this.props.auth0;
     let tokenClaims = await getIdTokenClaims();
@@ -28,6 +35,10 @@ class App extends React.Component {
     console.log(serverResponse);
   }
 
+  revealModal = () => {
+    this.setState({ show: true});
+  }
+
   render() {
     console.log('app', this.props);
     const { isAuthenticated } = this.props.auth0;
@@ -39,11 +50,11 @@ class App extends React.Component {
             <Switch>
               <Route exact path="/">
                 {/* TODO: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
-                {this.props.auth0.isAuthenticated ?  <MyFavoriteBooks /> : <Login />}
+                {isAuthenticated ?  <><MyFavoriteBooks /> <ShowModal revealModal= {this.revealModal} /></> : <Login />}
               </Route>
               {/* TODO: add a route with a path of '/profile' that renders a `Profile` component */}
               <Route exact path="/profile">
-              {this.props.auth0.isAuthenticated ?  <Profile /> : <h1>Hey there!</h1>}
+              {isAuthenticated ?  <Profile /> : <h1>Hey there!</h1>}
               </Route>
             </Switch>
             <Footer />
