@@ -1,12 +1,13 @@
 import React from 'react';
 import Header from './Header';
-import ShowModal from './ShowModal.js';
+import Button from 'react-bootstrap/Button';
 import IsLoadingAndError from './IsLoadingAndError';
 import Footer from './Footer';
 import Login from './Login.js';
 import MyFavoriteBooks from './BestBooks.js';
 import { withAuth0 } from '@auth0/auth0-react';
 import Profile from './Profile.js';
+import AddBookModal from './AddBookModal';
 import {
   BrowserRouter as Router,
   Switch,
@@ -49,12 +50,11 @@ class App extends React.Component {
             <Header />
             <Switch>
               <Route exact path="/">
-                {/* TODO: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
-                {isAuthenticated ?  <><MyFavoriteBooks /> <ShowModal revealModal= {this.revealModal} /></> : <Login />}
+                {this.state.show ? <AddBookModal /> : ''}
+                {isAuthenticated ? <><MyFavoriteBooks /><Button onClick= {this.revealModal}> Add a Book!</Button></> : <Login />}
               </Route>
-              {/* TODO: add a route with a path of '/profile' that renders a `Profile` component */}
               <Route exact path="/profile">
-              {isAuthenticated ?  <Profile /> : <h1>Hey there!</h1>}
+              {isAuthenticated ?  <Profile /> : <h2>Please Log in!</h2>}
               </Route>
             </Switch>
             <Footer />
